@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Insights Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        #sidebar {
+            float: left;
+            width: 250px;
+            background-color: #34495e;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+        #sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        #sidebar a {
+            text-decoration: none;
+            color: #ecf0f1;
+            display: block;
+            padding: 12px;
+            margin: 5px 0;
+            background-color: #3e5c76;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        #sidebar a:hover {
+            background-color: #4e7aa3;
+        }
+        #content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        section h2 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        section p {
+            color: #7f8c8d;
+        }
+        canvas {
+            max-width: 600px;
+            width: 100%;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+        }
+        .mood-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .mood {
+            padding: 15px;
+            border-radius: 5px;
+            color: white;
+            text-align: center;
+            width: 120px;
+            margin: 10px;
+        }
+        .stormy { background-color: #e74c3c; }
+        .sunny { background-color: #f1c40f; }
+        .cloudy { background-color: #95a5a6; }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        ul li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        ul li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Employee Insights Dashboard</h1>
+    </header>
+    <nav id="sidebar">
+        <ul>
+            <!-- Proactive Wellbeing & Mental Health -->
+            <li><a href="#burnout-prophecy">Burnout Prophecy Engine</a></li>
+            <li><a href="#empathy-amplifier">Empathy Amplifier</a></li>
+            <li><a href="#silent-sos">Silent SOS</a></li>
+            <!-- Hyper-Personalized Retention Strategies -->
+            <li><a href="#flight-risk-radar">Flight Risk Radar</a></li>
+            <li><a href="#kpi-whisperer">KPI Whisperer</a></li>
+            <li><a href="#salary-sentiment">Salary Sentiment Analyzer</a></li>
+            <!-- Toxicity & Harassment Defense -->
+            <li><a href="#power-imbalance">Power Imbalance Map</a></li>
+            <li><a href="#harassment-shield">Context-Aware Harassment Shield</a></li>
+            <li><a href="#shadow-reporter">Shadow Reporter</a></li>
+            <!-- Talent Unleashing -->
+            <li><a href="#genius-detector">Invisible Genius Detector</a></li>
+            <li><a href="#collaboration-dna">Collaboration DNA</a></li>
+            <li><a href="#maverick-identifier">Meeting Maverick Identifier</a></li>
+            <!-- Efficiency Revolution -->
+            <li><a href="#meeting-slayer">Meeting Vampire Slayer</a></li>
+            <li><a href="#task-delegation">Task Delegation AI</a></li>
+            <li><a href="#response-optimizer">Response Time Optimizer</a></li>
+            <!-- Culture & Innovation -->
+            <li><a href="#mood-map">Mood Weather Map</a></li>
+            <li><a href="#idea-mining">Idea Mining Bot</a></li>
+            <li><a href="#complaint-engine">Reverse Complaint Engine</a></li>
+            <!-- Ethical & Privacy-Centric Features -->
+            <li><a href="#truth-serum">Anonymized Truth Serum</a></li>
+            <li><a href="#self-destruct">Self-Destructing Insights</a></li>
+            <li><a href="#bias-mirror">Bias Mirror</a></li>
+        </ul>
+    </nav>
+    <main id="content">
+        <!-- Proactive Wellbeing & Mental Health -->
+        <section id="burnout-prophecy">
+            <h2>Burnout Prophecy Engine</h2>
+            <p>Predict burnout risk by analyzing subtle shifts in communication tone (e.g., increased passive voice, repetitive phrases) combined with calendar overload and overdue tasks.</p>
+            <canvas id="burnoutChart"></canvas>
+        </section>
+        <section id="empathy-amplifier" style="display: none;">
+            <h2>Empathy Amplifier</h2>
+            <p>Detect emotional exhaustion in messages and auto-suggest real-time coping strategies (e.g., "Your last 3 emails mentioned 'overwhelmed'—want to reschedule this deadline?").</p>
+            <canvas id="empathyChart"></canvas>
+        </section>
+        <section id="silent-sos" style="display: none;">
+            <h2>Silent SOS</h2>
+            <p>Flag phrases that hint at mental health struggles (e.g., "I can’t keep up") and anonymously connect employees with HR resources.</p>
+            <canvas id="sosChart"></canvas>
+        </section>
+
+        <!-- Hyper-Personalized Retention Strategies -->
+        <section id="flight-risk-radar" style="display: none;">
+            <h2>Flight Risk Radar</h2>
+            <p>Identify "quiet quitters" by tracking declining communication volume, slower response times, and negative sentiment spikes, then trigger personalized retention offers.</p>
+            <canvas id="flightRiskChart"></canvas>
+        </section>
+        <section id="kpi-whisperer" style="display: none;">
+            <h2>KPI Whisperer</h2>
+            <p>Cross-reference performance metrics with communication patterns to recommend promotions or role changes.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Current Role</th>
+                        <th>Suggested Role</th>
+                        <th>Confidence</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Emma</td>
+                        <td>Developer</td>
+                        <td>Tech Lead</td>
+                        <td>88%</td>
+                    </tr>
+                    <tr>
+                        <td>Liam</td>
+                        <td>Analyst</td>
+                        <td>Senior Analyst</td>
+                        <td>92%</td>
+                    </tr>
+                    <tr>
+                        <td>Sophia</td>
+                        <td>Designer</td>
+                        <td>UX Lead</td>
+                        <td>85%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="salary-sentiment" style="display: none;">
+            <h2>Salary Sentiment Analyzer</h2>
+            <p>Gauge dissatisfaction by correlating salary data with coded language (e.g., "underpaid" metaphors) and propose equity adjustments.</p>
+            <canvas id="salaryChart"></canvas>
+        </section>
+
+        <!-- Toxicity & Harassment Defense -->
+        <section id="power-imbalance" style="display: none;">
+            <h2>Power Imbalance Map</h2>
+            <p>Visualize communication networks to detect lopsided interactions (e.g., one employee dominating conversations with juniors) as potential bullying hotspots.</p>
+            <canvas id="powerChart"></canvas>
+        </section>
+        <section id="harassment-shield" style="display: none;">
+            <h2>Context-Aware Harassment Shield</h2>
+            <p>Use context-sensitive NLP to distinguish between casual jokes and harmful language.</p>
+            <canvas id="harassmentChart"></canvas>
+        </section>
+        <section id="shadow-reporter" style="display: none;">
+            <h2>Shadow Reporter</h2>
+            <p>Let employees confide in an AI chatbot that anonymizes and aggregates harassment patterns for HR without exposing victims.</p>
+            <canvas id="shadowChart"></canvas>
+        </section>
+
+        <!-- Talent Unleashing -->
+        <section id="genius-detector" style="display: none;">
+            <h2>Invisible Genius Detector</h2>
+            <p>Spot untapped skills by analyzing niche topics employees discuss passionately.</p>
+            <ul>
+                <li>Mark: Machine Learning - Suggest: AI Certification</li>
+                <li>Julia: UX Design - Suggest: User Research Workshop</li>
+                <li>Ethan: Data Visualization - Suggest: Tableau Training</li>
+            </ul>
+        </section>
+        <section id="collaboration-dna" style="display: none;">
+            <h2>Collaboration DNA</h2>
+            <p>Match employees for projects based on complementary communication styles.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Team</th>
+                        <th>Employees</th>
+                        <th>Compatibility</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Alpha</td>
+                        <td>Emma & Liam</td>
+                        <td>91%</td>
+                    </tr>
+                    <tr>
+                        <td>Beta</td>
+                        <td>Sophia & Mark</td>
+                        <td>87%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="maverick-identifier" style="display: none;">
+            <h2>Meeting Maverick Identifier</h2>
+            <p>Highlight employees who consistently resolve conflicts or unblock tasks in meetings but aren’t in leadership roles.</p>
+            <canvas id="maverickChart"></canvas>
+        </section>
+
+        <!-- Efficiency Revolution -->
+        <section id="meeting-slayer" style="display: none;">
+            <h2>Meeting Vampire Slayer</h2>
+            <p>Auto-flag recurring low-value meetings and suggest cancellations.</p>
+            <canvas id="meetingChart"></canvas>
+        </section>
+        <section id="task-delegation" style="display: none;">
+            <h2>Task Delegation AI</h2>
+            <p>Analyze overdue tasks and team workloads to recommend redistribution.</p>
+            <canvas id="taskBeforeChart"></canvas>
+            <canvas id="taskAfterChart"></canvas>
+        </section>
+        <section id="response-optimizer" style="display: none;">
+            <h2>Response Time Optimizer</h2>
+            <p>Predict ideal email reply windows based on an employee’s historical productivity peaks.</p>
+            <canvas id="responseChart"></canvas>
+        </section>
+
+        <!-- Culture & Innovation -->
+        <section id="mood-map" style="display: none;">
+            <h2>Mood Weather Map</h2>
+            <p>Generate real-time org-wide sentiment visuals.</p>
+            <div class="mood-container">
+                <div class="mood stormy">Sales: Stormy</div>
+                <div class="mood sunny">R&D: Sunny</div>
+                <div class="mood cloudy">Marketing: Cloudy</div>
+            </div>
+        </section>
+        <section id="idea-mining" style="display: none;">
+            <h2>Idea Mining Bot</h2>
+            <p>Scan messages for unsolicited innovations and route them to innovation teams.</p>
+            <ul>
+                <li>"Streamline onboarding" - Status: Implemented</li>
+                <li>"AI-driven scheduling" - Status: Under Review</li>
+                <li>"Remote team gamification" - Status: Proposed</li>
+            </ul>
+        </section>
+        <section id="complaint-engine" style="display: none;">
+            <h2>Reverse Complaint Engine</h2>
+            <p>Turn negative language into solutions by auto-suggesting reframing.</p>
+            <canvas id="complaintChart"></canvas>
+        </section>
+
+        <!-- Ethical & Privacy-Centric Features -->
+        <section id="truth-serum" style="display: none;">
+            <h2>Anonymized Truth Serum</h2>
+            <p>Aggregate sensitive feedback into trends without exposing individuals, even to HR.</p>
+            <p><strong>Trend:</strong> "Increased stress reported in Q3 across engineering teams."</p>
+        </section>
+        <section id="self-destruct" style="display: none;">
+            <h2>Self-Destructing Insights</h2>
+            <p>Auto-delete granular data after analysis to prevent surveillance misuse.</p>
+            <p><strong>Status:</strong> All individual data points deleted post-analysis; only trends retained.</p>
+        </section>
+        <section id="bias-mirror" style="display: none;">
+            <h2>Bias Mirror</h2>
+            <p>Audit leadership communication for unconscious bias.</p>
+            <canvas id="biasChart"></canvas>
+        </section>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('#sidebar a');
+            const sections = document.querySelectorAll('#content section');
+
+            // Navigation Logic
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    sections.forEach(section => {
+                        section.style.display = section.id === targetId ? 'block' : 'none';
+                    });
+                });
+            });
+            sections[0].style.display = 'block'; // Show first section by default
+
+            // Burnout Prophecy Engine Chart
+            new Chart(document.getElementById('burnoutChart').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                    datasets: [{
+                        label: 'Burnout Risk Score',
+                        data: [25, 35, 45, 50],
+                        borderColor: '#e74c3c',
+                        backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                        fill: true
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: true, max: 100 } } }
+            });
+
+            // Empathy Amplifier Chart
+            new Chart(document.getElementById('empathyChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Detections', 'Suggestions'],
+                    datasets: [{
+                        label: 'Occurrences',
+                        data: [18, 12],
+                        backgroundColor: ['#3498db', '#2ecc71']
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: true } } }
+            });
+
+            // Silent SOS Chart
+            new Chart(document.getElementById('sosChart').getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: ['Overwhelmed', 'Can’t Keep Up', 'Exhausted', 'Other'],
+                    datasets: [{
+                        data: [35, 25, 20, 20],
+                        backgroundColor: ['#e74c3c', '#e67e22', '#f1c40f', '#95a5a6']
+                    }]
+                }
+            });
+
+            // Flight Risk Radar Chart
+            new Chart(document.getElementById('flightRiskChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['At Risk', 'Stable'],
+                    datasets: [{
+                        data: [18, 82],
+                        backgroundColor: ['#e74c3c', '#2ecc71']
+                    }]
+                }
+            });
+
+            // Salary Sentiment Analyzer Chart
+            new Chart(document.getElementById('salaryChart').getContext('2d'), {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Employee Sentiment',
+                        data: [
+                            {x: 45000, y: 55},
+                            {x: 52000, y: 60},
+                            {x: 58000, y: 65},
+                            {x: 65000, y: 75},
+                            {x: 70000, y: 80}
+                        ],
+                        backgroundColor: '#3498db'
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: { title: { display: true, text: 'Salary ($)' } },
+                        y: { title: { display: true, text: 'Sentiment Score' }, max: 100 }
+                    }
+                }
+            });
+
+            // Power Imbalance Map Chart
+            new Chart(document.getElementById('powerChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Mgr-Employee', 'Peer-Peer', 'Employee-Mgr'],
+                    datasets: [{
+                        label: 'Interaction Count',
+                        data: [120, 180, 45],
+                        backgroundColor: '#9b59b6'
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: true } } }
+            });
+
+            // Harassment Shield Chart
+            new Chart(document.getElementById('harassmentChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Jokes', 'Inappropriate', 'Harmful'],
+                    datasets: [{
+                        label: 'Flagged Messages',
+                        data: [15, 8, 3],
+                        backgroundColor: ['#f1c40f', '#e67e22', '#e74c3c']
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: true } } }
+            });
+
+            // Shadow Reporter Chart
+            new Chart(document.getElementById('shadowChart').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr'],
+                    datasets: [{
+                        label: 'Reports',
+                        data: [2, 4, 1, 5],
+                        borderColor: '#2ecc71',
+                        backgroundColor: 'rgba(46, 204, 113, 0.2)',
+                        fill: true
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: true } } }
+            });
+
+            // Meeting Maverick Identifier Chart
+            new Chart(document.getElementById('maverickChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Emma', 'Liam', 'Sophia'],
+                    datasets: [{
+                        label: 'Contribution Score',
+                        data: [55, 45, 38],
+                        backgroundColor: '#3498db'
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: true } } }
+            });
+
+            // Meeting Vampire Slayer Chart
+            new Chart(document.getElementById('meetingChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Flagged Meetings', 'Time Saved (hrs)'],
+                    datasets: [{
+                        label: 'Metrics',
+                        data: [12, 24],
+                        backgroundColor: ['#e74c3c', '#2ecc71']
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: true } } }
+            });
+
+            // Task Delegation AI Charts
+            new Chart(document.getElementById('taskBeforeChart').getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: ['Emma', 'Liam', 'Sophia'],
+                    datasets: [{
+                        data: [45, 30, 25],
+                        backgroundColor: ['#e74c3c', '#3498db', '#f1c40f']
+                    }]
+                },
+                options: { title: { display: true, text: 'Before Redistribution' } }
+            });
+            new Chart(document.getElementById('taskAfterChart').getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: ['Emma', 'Liam', 'Sophia'],
+                    datasets: [{
+                        data: [35, 33, 32],
+                        backgroundColor: ['#e74c3c', '#3498db', '#f1c40f']
+                    }]
+                },
+                options: { title: { display: true, text: 'After Redistribution' } }
+            });
+
+            // Response Time Optimizer Chart
+            new Chart(document.getElementById('responseChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Current (hrs)', 'Optimized (hrs)'],
+                    datasets: [{
+                        label: 'Response Time',
+                        data: [2.5, 1.2],
+                        backgroundColor: ['#e67e22', '#2ecc71']
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: true } } }
+            });
+
+            // Reverse Complaint Engine Chart
+            new Chart(document.getElementById('complaintChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Complaints', 'Solutions'],
+                    datasets: [{
+                        label: 'Count',
+                        data: [20, 14],
+                        backgroundColor: ['#e74c3c', '#2ecc71']
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: true } } }
+            });
+
+            // Bias Mirror Chart
+            new Chart(document.getElementById('biasChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Confidence (M)', 'Confidence (F)', 'Collab (M)', 'Collab (F)'],
+                    datasets: [{
+                        label: 'Praise %',
+                        data: [65, 35, 30, 70],
+                        backgroundColor: ['#3498db', '#e91e63', '#3498db', '#e91e63']
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: true, max: 100 } } }
+            });
+        });
+    </script>
+</body>
+</html>
